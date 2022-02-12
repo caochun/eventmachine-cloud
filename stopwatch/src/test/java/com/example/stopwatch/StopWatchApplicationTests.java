@@ -1,10 +1,10 @@
-package com.example.eventmachinecloud;
+package com.example.stopwatch;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EventmachineCloudApplicationTests {
+class StopWatchApplicationTests {
 
 	@Test
 	void contextLoads() {

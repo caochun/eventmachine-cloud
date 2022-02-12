@@ -10,8 +10,9 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>eventmachine-cloud</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>eventmachine-cloud</name>
+	<packaging>pom</packaging>
 	<description>Demo project for Event Machine Cloud</description>
 	<properties>
 		<java.version>11</java.version>
@@ -69,5 +70,9 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<modules>
+		<module>stopwatch</module>
+	</modules>
 
 </project>
