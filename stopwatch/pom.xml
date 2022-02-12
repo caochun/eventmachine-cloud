@@ -7,7 +7,6 @@
 		<version>0.0.1</version>
 		<relativePath>../</relativePath> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
 	<artifactId>stopwatch-cloud</artifactId>
 	<name>stopwatch</name>
 	<description>Demo project for Event Machine Cloud</description>

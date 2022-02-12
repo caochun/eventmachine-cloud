@@ -1,12 +1,18 @@
 package com.example.stopwatch;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.commons.scxml2.SCXMLListener;
 import org.apache.commons.scxml2.env.AbstractStateMachine;
+import org.apache.commons.scxml2.model.EnterableState;
+import org.apache.commons.scxml2.model.ModelException;
+import org.apache.commons.scxml2.model.Transition;
+import org.apache.commons.scxml2.model.TransitionTarget;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * A SCXML document driven stop watch.
@@ -18,6 +24,7 @@ import org.apache.commons.scxml2.env.AbstractStateMachine;
  * the constructor points to (which in turn may be generated straight
  * from the UML model).
  */
+@Component
 public class StopWatch extends AbstractStateMachine {
 
     /**
@@ -48,25 +55,22 @@ public class StopWatch extends AbstractStateMachine {
      */
     private static final String DELIM = ":", DOT = ".", EMPTY = "", ZERO = "0";
 
-    private Collection<StateDelegate> delegateList;
 
-    public StopWatch(Collection<StateDelegate> delegateList) throws ModelException {
-        super(StopWatch.class.getClassLoader().getResource("stopwatch.xml"));
+    private StateDelegate stateDelegate;
 
-        this.delegateList = delegateList;
+    @Autowired
+    public void setStateDelegate(StateDelegate stateDelegate){
+        this.stateDelegate = stateDelegate;
+    }
 
+    @PostConstruct
+    public void addListenerDelegate(){
         this.getEngine().addListener(this.getEngine().getStateMachine(), new SCXMLListener() {
-            final Collection<StateDelegate> delegates = StopWatch.this.delegateList;
+            final StateDelegate delegate = StopWatch.this.stateDelegate;
 
             @Override
             public void onEntry(EnterableState enterableState) {
-
-                for (StateDelegate delegate : delegates) {
-                    if (enterableState.getId().equals(delegate.getState())) {
-                        delegate.onState(StopWatch.this);
-                    }
-
-                }
+                delegate.onState(enterableState.getId());
             }
 
             @Override
@@ -81,14 +85,18 @@ public class StopWatch extends AbstractStateMachine {
         });
     }
 
+    public StopWatch() throws ModelException {
+        super(StopWatch.class.getClassLoader().getResource("stopwatch.xml"));
+    }
+
     // Each method below is the activity corresponding to a state in the
     // SCXML document (see class constructor for pointer to the document).
-    public void doReset() {
+    public void reset() {
         hr = min = sec = fract = dhr = dmin = dsec = dfract = 0;
         split = false;
     }
 
-    public void doRunning() {
+    public void running() {
         split = false;
         if (timer == null) {
             timer = new Timer(true);
@@ -101,11 +109,11 @@ public class StopWatch extends AbstractStateMachine {
         }
     }
 
-    public void doPaused() {
+    public void paused() {
         split = true;
     }
 
-    public void doStopped() {
+    public void stopped() {
         timer.cancel();
         timer = null;
     }

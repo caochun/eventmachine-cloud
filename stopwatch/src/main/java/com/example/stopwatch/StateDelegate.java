@@ -1,19 +1,21 @@
-package com.example.eventmachine;
+package com.example.stopwatch;
 
 import org.apache.commons.scxml2.env.AbstractStateMachine;
-import org.apache.commons.scxml2.model.State;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.stereotype.Component;
 
-public abstract class  StateDelegate <T extends AbstractStateMachine> {
+@Component
+public class StateDelegate {
 
-    private final String state;
+    private StreamBridge streamBridge;
 
-    public String getState(){
-        return this.state;
+    @Autowired
+    public void setStreamBridge(StreamBridge streamBridge) {
+        this.streamBridge = streamBridge;
     }
 
-    public StateDelegate(String state){
-        this.state = state;
+    public void onState(String t) {
+        streamBridge.send("output", t);
     }
-
-    public abstract void onState(T t);
 }
