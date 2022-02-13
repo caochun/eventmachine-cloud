@@ -2,13 +2,18 @@ package com.example.watchrunning;
 
 import java.util.function.Consumer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-@EnableBinding(WatchChannels.class)
+@RestController
 public class WatchRunningApplication {
 
     public static void main(String[] args) {
@@ -16,5 +21,22 @@ public class WatchRunningApplication {
 
     }
 
+    private StreamBridge streamBridge;
 
+    @Autowired
+    public void setStreamBridge(StreamBridge streamBridge) {
+        this.streamBridge = streamBridge;
+    }
+
+    @GetMapping("/send")
+    public String greeting(@RequestParam(name = "event", required = false, defaultValue = "World") String event) {
+        streamBridge.send("event-output", event);
+        return "sent";
+    }
+
+
+    @Bean
+    public Consumer<String> consumer() {
+        return str -> System.out.println(str);
+    }
 }

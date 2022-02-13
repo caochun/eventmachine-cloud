@@ -16,6 +16,6 @@ public class StateDelegate {
     }
 
     public void onState(String t) {
-        streamBridge.send("output", t);
+        streamBridge.send("state-output", t);
     }
 }

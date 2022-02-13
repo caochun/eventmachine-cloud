@@ -5,10 +5,16 @@
         <groupId>com.example</groupId>
         <artifactId>eventmachine-cloud</artifactId>
         <version>0.0.1</version>
-        <relativePath>../</relativePath> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
     <artifactId>stopwatch-running</artifactId>
     <name>watchrunning</name>
     <description>Demo project for Event Machine Cloud</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
 </project>
