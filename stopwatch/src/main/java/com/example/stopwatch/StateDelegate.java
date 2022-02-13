@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class StateDelegate {
 
+    private final String BINDING_STATE_OUTPUT = "state-output";
+
     private StreamBridge streamBridge;
 
     @Autowired
@@ -16,6 +18,6 @@ public class StateDelegate {
     }
 
     public void onState(String t) {
-        streamBridge.send("state-output", t);
+        streamBridge.send(BINDING_STATE_OUTPUT, t);
     }
 }

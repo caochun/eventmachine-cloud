@@ -31,8 +31,7 @@ import org.springframework.stereotype.Component;
  * @see StopWatch
  */
 @Component
-public class StopWatchDisplay extends JFrame
-        implements ActionListener {
+public class StopWatchDisplay extends JFrame {
 
     private StopWatch stopWatch;
 
@@ -48,34 +47,6 @@ public class StopWatchDisplay extends JFrame
     }
 
 
-    public void actionPerformed(final ActionEvent e) {
-
-        final String command = e.getActionCommand();
-        if (command.equals("START")) {
-            if (start.getText().equals("Start")) {
-                stopWatch.fireEvent(StopWatch.EVENT_START);
-                start.setText("Stop");
-                split.setEnabled(true);
-            } else if (start.getText().equals("Stop")) {
-                stopWatch.fireEvent(StopWatch.EVENT_STOP);
-                start.setText("Reset");
-                split.setEnabled(false);
-            } else {
-                stopWatch.fireEvent(StopWatch.EVENT_RESET);
-                start.setText("Start");
-                split.setText("Split");
-            }
-        } else if (command.equals("SPLIT")) {
-            if (split.getText().equals("Split")) {
-                stopWatch.fireEvent(StopWatch.EVENT_SPLIT);
-                split.setText("Unsplit");
-            } else {
-                stopWatch.fireEvent(StopWatch.EVENT_UNSPLIT);
-                split.setText("Split");
-            }
-        }
-    }
-
     @PostConstruct
     private void setupUI() {
         final URL imageURL = this.getClass().getClassLoader()
@@ -90,13 +61,8 @@ public class StopWatchDisplay extends JFrame
         setContentPane(panel);
         display = new JLabel(stopWatch.getDisplay());
         panel.add(display, BorderLayout.PAGE_START);
-        start = makeButton("START", "start, stop, reset", "Start");
-        panel.add(start, BorderLayout.LINE_START);
         state = new JLabel();
         panel.add(state, BorderLayout.CENTER);
-        split = makeButton("SPLIT", "split, unsplit", "Split");
-        split.setEnabled(false);
-        panel.add(split, BorderLayout.LINE_END);
         pack();
         setLocation(200, 200);
         setIconImage(watchIcon);
@@ -116,15 +82,6 @@ public class StopWatchDisplay extends JFrame
         }, 100, 100);
     }
 
-    private JButton makeButton(final String actionCommand,
-                               final String toolTipText, final String altText) {
-        final JButton button = new JButton(altText);
-        button.setActionCommand(actionCommand);
-        button.setToolTipText(toolTipText);
-        button.addActionListener(this);
-        button.setOpaque(false);
-        return button;
-    }
 
     class WatchPanel extends JPanel {
         @Override
@@ -136,7 +93,6 @@ public class StopWatchDisplay extends JFrame
     }
 
     private JLabel display, state;
-    private JButton start, split;
     // spaces :: GridBagConstraints ;-)
     private static final String DISPLAY_PREFIX = "<html><font face=\"Courier\" color=\"maroon\"" +
             " size=\"10\"><b>&nbsp;&nbsp;&nbsp;",

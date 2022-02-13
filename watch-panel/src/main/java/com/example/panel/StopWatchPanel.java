@@ -1,5 +1,8 @@
 package com.example.panel;
 
+import com.example.stopwatch.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
@@ -22,14 +25,11 @@ public class StopWatchPanel extends JFrame
         super("SCXML stopwatch");
     }
 
-
-    private final String BINDING_EVENT_OUT = "event-out";
-
-    private StreamBridge streamBridge;
+    private CommandDelegate commandDelegate;
 
     @Autowired
-    public void setStreamBridge(StreamBridge streamBridge) {
-        this.streamBridge = streamBridge;
+    public void setCommandDelegate(CommandDelegate commandDelegate) {
+        this.commandDelegate = commandDelegate;
     }
 
 
@@ -38,27 +38,24 @@ public class StopWatchPanel extends JFrame
         final String command = e.getActionCommand();
         if (command.equals("START")) {
             if (start.getText().equals("Start")) {
-
-                streamBridge.send("event-out", event);
-
-                stopWatch.fireEvent(StopWatch.EVENT_START);
+                commandDelegate.sendCommand(StopWatch.EVENT_START);
                 start.setText("Stop");
                 split.setEnabled(true);
             } else if (start.getText().equals("Stop")) {
-                stopWatch.fireEvent(StopWatch.EVENT_STOP);
+                commandDelegate.sendCommand(StopWatch.EVENT_STOP);
                 start.setText("Reset");
                 split.setEnabled(false);
             } else {
-                stopWatch.fireEvent(StopWatch.EVENT_RESET);
+                commandDelegate.sendCommand(StopWatch.EVENT_RESET);
                 start.setText("Start");
                 split.setText("Split");
             }
         } else if (command.equals("SPLIT")) {
             if (split.getText().equals("Split")) {
-                stopWatch.fireEvent(StopWatch.EVENT_SPLIT);
+                commandDelegate.sendCommand(StopWatch.EVENT_SPLIT);
                 split.setText("Unsplit");
             } else {
-                stopWatch.fireEvent(StopWatch.EVENT_UNSPLIT);
+                commandDelegate.sendCommand(StopWatch.EVENT_UNSPLIT);
                 split.setText("Split");
             }
         }
@@ -76,7 +73,9 @@ public class StopWatchPanel extends JFrame
         final WatchPanel panel = new WatchPanel();
         panel.setLayout(new BorderLayout());
         setContentPane(panel);
-
+        state = new JLabel();
+        panel.add(state, BorderLayout.CENTER);
+        pack();
         start = makeButton("START", "start, stop, reset", "Start");
         panel.add(start, BorderLayout.LINE_START);
         state = new JLabel();
@@ -104,6 +103,32 @@ public class StopWatchPanel extends JFrame
         return button;
     }
 
+    private int hb = 0;
+
+    Logger logger = LoggerFactory.getLogger(WatchRunningApplication.class);
+
+
+    public void updateStatus(String status) {
+        if (status.equals("heartbeat")) {
+            logger.info(status);
+        } else {
+            this.state.setText(status);
+
+        }
+    }
+
+    private StateAdaptor stateAdaptor;
+
+    @Autowired
+    public void setStateAdaptor(StateAdaptor stateAdaptor) {
+        this.stateAdaptor = stateAdaptor;
+    }
+
+    @PostConstruct
+    public void bindStateAdaptor() {
+        this.stateAdaptor.setStopWatchPanel(this);
+    }
+
     class WatchPanel extends JPanel {
         @Override
         public void paintComponent(final Graphics g) {
@@ -113,7 +138,7 @@ public class StopWatchPanel extends JFrame
         }
     }
 
-    private JLabel display, state;
+    private JLabel state;
     private JButton start, split;
     // spaces :: GridBagConstraints ;-)
     private static final String DISPLAY_PREFIX = "<html><font face=\"Courier\" color=\"maroon\"" +

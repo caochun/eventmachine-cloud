@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.example</groupId>
-		<artifactId>eventmachine-cloud</artifactId>
-		<version>0.0.1</version>
-		<relativePath>../</relativePath> <!-- lookup parent from repository -->
-	</parent>
-	<artifactId>stopwatch-cloud</artifactId>
-	<name>stopwatch</name>
-	<description>Demo project for Event Machine Cloud</description>
-	<dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>eventmachine-cloud</artifactId>
+        <version>0.0.1</version>
+        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
+    </parent>
+    <artifactId>stopwatch</artifactId>
+    <name>stopwatch</name>
+    <description>Demo project for Event Machine Cloud</description>
+    <dependencies>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-scxml2</artifactId>
-			<version>2.0-M1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-scxml2</artifactId>
+            <version>2.0-M1</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-jexl</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-jexl</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+    </dependencies>
 
-	<repositories>
+    <repositories>
         <repository>
             <id>onehippo</id>
             <url>https://maven.onehippo.com/maven2/</url>

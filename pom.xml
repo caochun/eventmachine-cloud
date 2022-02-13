@@ -72,7 +72,7 @@
 
 	<modules>
 		<module>stopwatch</module>
-		<module>watchrunning</module>
+		<module>watch-panel</module>
 	</modules>
 
 </project>

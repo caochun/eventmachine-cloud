@@ -63,6 +63,14 @@ public class StopWatch extends AbstractStateMachine {
         this.stateDelegate = stateDelegate;
     }
 
+
+    private EventAdaptor eventAdaptor;
+
+    @Autowired
+    public void setEventAdaptor(EventAdaptor eventAdaptor){
+        this.eventAdaptor = eventAdaptor;
+    }
+
     @PostConstruct
     public void addListenerDelegate(){
         this.getEngine().addListener(this.getEngine().getStateMachine(), new SCXMLListener() {
@@ -83,6 +91,11 @@ public class StopWatch extends AbstractStateMachine {
 
             }
         });
+    }
+
+    @PostConstruct
+    public void initAdaptor(){
+        this.eventAdaptor.setStopWatch(this);
     }
 
     public StopWatch() throws ModelException {
