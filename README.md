@@ -18,6 +18,6 @@ mvn clean install
 cd stopwatch
 mvn spring-boot:run
 
-cd ../watch-paenl
+cd ../watch-panel
 mvn spring-boot:run
 ```
