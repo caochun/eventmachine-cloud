@@ -7,14 +7,8 @@
         <version>0.0.1</version>
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
-    <artifactId>stopwatch-running</artifactId>
-    <name>watchrunning</name>
+    <artifactId>stopwatch-panel</artifactId>
+    <name>watch-panel</name>
     <description>Demo project for Event Machine Cloud</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-    </dependencies>
 </project>

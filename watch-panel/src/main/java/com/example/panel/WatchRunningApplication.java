@@ -21,16 +21,9 @@ public class WatchRunningApplication {
 
     }
 
-    private StreamBridge streamBridge;
-
-    @Autowired
-    public void setStreamBridge(StreamBridge streamBridge) {
-        this.streamBridge = streamBridge;
-    }
 
     @GetMapping("/send")
     public String greeting(@RequestParam(name = "event", required = false, defaultValue = "World") String event) {
-        streamBridge.send("event-output", event);
         return "sent";
     }
 
