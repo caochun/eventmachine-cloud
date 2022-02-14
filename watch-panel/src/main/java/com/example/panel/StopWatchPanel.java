@@ -105,7 +105,7 @@ public class StopWatchPanel extends JFrame
 
     private int hb = 0;
 
-    Logger logger = LoggerFactory.getLogger(WatchRunningApplication.class);
+    Logger logger = LoggerFactory.getLogger(WatchPanelApplication.class);
 
 
     public void updateStatus(String status) {

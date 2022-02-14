@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Bean;
 import java.util.function.Consumer;
 
 @SpringBootApplication
-public class WatchRunningApplication {
+public class WatchPanelApplication {
 
     public static void main(String[] args) {
-        SpringApplicationBuilder builder = new SpringApplicationBuilder(WatchRunningApplication.class);
+        SpringApplicationBuilder builder = new SpringApplicationBuilder(WatchPanelApplication.class);
         builder.headless(false);
         ConfigurableApplicationContext context = builder.run(args);
     }
